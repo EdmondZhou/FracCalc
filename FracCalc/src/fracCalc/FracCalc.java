@@ -22,7 +22,7 @@ public class FracCalc {
 	public static String produceAnswer(String input)
 	{ 
 		// TODO: Implement this function to produce the solution to the input
-
+		String.split();
 		return "";
 	}
 
