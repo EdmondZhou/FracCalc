@@ -35,26 +35,43 @@ public class FracCalc {
 		String firstOperand = array[0];
 		String operator = array[1];
 		String secondOperand = array[2];
+		firstOperand = Separate(firstOperand);
+		secondOperand = Separate(secondOperand);
 		
-		return	}
-
-	// TODO: Fill in the space below with any helper methods that you think you will need
-	public static String toImproper(String input) {
-		String[] mixednumbersplit = input.split("_");
-		String stringWholeNum = mixednumbersplit[0];
-		String fraction = mixednumbersplit[1];
-		String[] fractionsplit = fraction.split("/");
-		String stringNumerator = fractionsplit[0];
-		String stringDenominator = fractionsplit[1];
-		int wholeNum = Integer.parseInt(stringWholeNum);
-		int numerator = Integer.parseInt(stringNumerator);
-		int denominator = Integer.parseInt(stringDenominator);
-		int answer = wholeNum * denominator;
-		answer += numerator;
-		Integer.toString(answer); 
-		String improperFrac = answer + "/" + denominator;
-		return improperFrac;
-
 	}
 
+	// TODO: Fill in the space below with any helper methods that you think you will need
+	public static String Separate(String input) {
+		int numerator = 0;
+		int denominator = 1;
+		int wholeNum = 0;
+		String[] mixednumbersplit = input.split("_");
+		String stringWholeNum = mixednumbersplit[0];
+		String answer = "";
+		if(mixednumbersplit.length == 2) {
+			String fraction = mixednumbersplit[1];
+			String[] fractionsplit = fraction.split("/");
+			String stringNumerator = fractionsplit[0];
+			String stringDenominator = fractionsplit[1];
+			wholeNum = Integer.parseInt(stringWholeNum);
+			numerator = Integer.parseInt(stringNumerator);
+			denominator = Integer.parseInt(stringDenominator);
+		}
+		else {
+			String fraction = mixednumbersplit[0];
+			String[] fractionsplit = fraction.split("/");
+			if (fractionsplit.length == 2){
+				String stringNumerator = fractionsplit[0];
+				String stringDenominator = fractionsplit[1];
+				numerator = Integer.parseInt(stringNumerator);
+				denominator = Integer.parseInt(stringDenominator);
+			}
+			if(fractionsplit.length == 1) {
+				wholeNum= Integer.parseInt(stringWholeNum);
+			}
+		}
+		return ("whole:" + wholeNum + " numerator:" + numerator + " denominator:" + denominator);
+
+
+	}
 }
