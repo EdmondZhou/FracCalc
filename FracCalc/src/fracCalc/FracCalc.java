@@ -28,26 +28,62 @@ public class FracCalc {
 	//        
 	// The function should return the result of the fraction after it has been calculated
 	//      e.g. return ==> "1_1/4"
-	public static String produceAnswer(String input)
-	{ 
+	public static String produceAnswer(String input){ 
 		// TODO: Implement this function to produce the solution to the input
 		String[] array = input.split(" ");
 		String firstOperand = array[0];
 		String operator = array[1];
 		String secondOperand = array[2];
-		firstOperand = Separate(firstOperand);
-		secondOperand = Separate(secondOperand);
-		
+		firstOperand = toImproperFracString(firstOperand);
+		secondOperand = toImproperFracString(secondOperand);
+		String[] firstOpSplit = firstOperand.split("/");
+		String[] secondOpSplit = secondOperand.split("/");
+		String firstNumer = firstOpSplit[0];
+		String firstDenom = firstOpSplit[1];
+		String secondNumer = secondOpSplit[0];
+		String secondDenom =secondOpSplit[1];
+		int firstNumerator = Integer.parseInt(firstNumer);
+		int firstDenominator = Integer.parseInt(firstDenom);
+		int secondNumerator = Integer.parseInt(secondNumer);
+		int secondDenominator = Integer.parseInt(secondDenom);
+		int commonDenominator = firstDenominator * secondDenominator;
+		firstNumerator *= secondDenominator;
+		secondNumerator *= firstDenominator;
+		if (operator.equals("+")) {
+			if(secondNumerator < 0 && firstNumerator >= 0) {
+				firstNumerator -= secondNumerator;
+			}
+			if(secondNumerator >= 0 && firstNumerator >=0 || secondNumerator < 0 && firstNumerator < 0 || firstNumerator < 0 && secondNumerator >0){
+				firstNumerator += secondNumerator;
+			}
+		}
+		if (operator.equals("-")) {
+			if(secondNumerator < 0 && firstNumerator >= 0) {
+				firstNumerator += secondNumerator;
+			}
+			if(secondNumerator >= 0 && firstNumerator >=0 || secondNumerator < 0 && firstNumerator < 0 || firstNumerator < 0 && secondNumerator >0) {
+				firstNumerator -= secondNumerator;
+			}
+		}
+		if (operator.equals("*")) {
+			firstNumerator *= secondNumerator;
+			commonDenominator *= commonDenominator;
+		}
+		if (operator.equals("/")) {
+			firstNumerator *= commonDenominator;
+			commonDenominator *= secondNumerator;
+		}
+		return (firstNumerator + "/" + commonDenominator);
 	}
 
 	// TODO: Fill in the space below with any helper methods that you think you will need
-	public static String Separate(String input) {
+	public static String toImproperFracString(String input) {
 		int numerator = 0;
 		int denominator = 1;
 		int wholeNum = 0;
+		int improperNumerator = 0;
 		String[] mixednumbersplit = input.split("_");
 		String stringWholeNum = mixednumbersplit[0];
-		String answer = "";
 		if(mixednumbersplit.length == 2) {
 			String fraction = mixednumbersplit[1];
 			String[] fractionsplit = fraction.split("/");
@@ -56,6 +92,13 @@ public class FracCalc {
 			wholeNum = Integer.parseInt(stringWholeNum);
 			numerator = Integer.parseInt(stringNumerator);
 			denominator = Integer.parseInt(stringDenominator);
+			if(wholeNum < 0) {
+				improperNumerator = wholeNum*denominator - numerator;
+			}
+			if(wholeNum >= 0) {
+				improperNumerator = wholeNum * denominator + numerator;
+			}
+			return (improperNumerator + "/" + denominator);
 		}
 		else {
 			String fraction = mixednumbersplit[0];
@@ -65,13 +108,15 @@ public class FracCalc {
 				String stringDenominator = fractionsplit[1];
 				numerator = Integer.parseInt(stringNumerator);
 				denominator = Integer.parseInt(stringDenominator);
+				improperNumerator = numerator;
+				return (improperNumerator + "/" + denominator);
 			}
 			if(fractionsplit.length == 1) {
 				wholeNum= Integer.parseInt(stringWholeNum);
+				return (Integer.toString(wholeNum) + "/" + denominator);
 			}
 		}
-		return ("whole:" + wholeNum + " numerator:" + numerator + " denominator:" + denominator);
-
-
+		return ("error");
 	}
+
 }
