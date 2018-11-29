@@ -10,7 +10,7 @@ public class FracCalc {
 			System.out.println("Please enter values you want calculated.");
 			String input = userInput.nextLine();
 			System.out.println(produceAnswer(input));
-			System.out.println("Type quit if you want to end.");
+			System.out.println("Type \"quit\" if you want to end.");
 			if (userInput.nextLine() == "quit") {
 				test = true;
 			}
@@ -47,24 +47,15 @@ public class FracCalc {
 		int secondNumerator = Integer.parseInt(secondNumer);
 		int secondDenominator = Integer.parseInt(secondDenom);
 		int commonDenominator = firstDenominator * secondDenominator;
+		int wholeNumber = 0;
 		firstNumerator *= secondDenominator;
 		secondNumerator *= firstDenominator;
 		if (operator.equals("+")) {
-			if(secondNumerator < 0 && firstNumerator >= 0) {
-				firstNumerator -= secondNumerator;
-			}
-			if(secondNumerator >= 0 && firstNumerator >=0 || secondNumerator < 0 && firstNumerator < 0 || firstNumerator < 0 && secondNumerator >0){
 				firstNumerator += secondNumerator;
 			}
-		}
 		if (operator.equals("-")) {
-			if(secondNumerator < 0 && firstNumerator >= 0) {
-				firstNumerator += secondNumerator;
-			}
-			if(secondNumerator >= 0 && firstNumerator >=0 || secondNumerator < 0 && firstNumerator < 0 || firstNumerator < 0 && secondNumerator >0) {
 				firstNumerator -= secondNumerator;
 			}
-		}
 		if (operator.equals("*")) {
 			firstNumerator *= secondNumerator;
 			commonDenominator *= commonDenominator;
@@ -73,9 +64,23 @@ public class FracCalc {
 			firstNumerator *= commonDenominator;
 			commonDenominator *= secondNumerator;
 		}
-		return (firstNumerator + "/" + commonDenominator);
+		while( firstNumerator % 2 == 0 && commonDenominator % 2 == 0)//if the numerator and denominator are both factors of 2
+			{
+			firstNumerator /= 2;
+			commonDenominator /= 2;
+		}
+		while( firstNumerator % commonDenominator == 0) //if the numerator is a factor of the denominator.
+		{
+			wholeNumber = firstNumerator / commonDenominator;
+				return (wholeNumber+"");
+			}
+		while(firstNumerator % commonDenominator >= 1) {
+			wholeNumber = firstNumerator / commonDenominator;
+			firstNumerator -= wholeNumber*commonDenominator ;
+			return (wholeNumber + "_" + firstNumerator + "/" + commonDenominator);
+		}
+		return(firstNumerator + "/" + commonDenominator);
 	}
-
 	// TODO: Fill in the space below with any helper methods that you think you will need
 	public static String toImproperFracString(String input) {
 		int numerator = 0;
