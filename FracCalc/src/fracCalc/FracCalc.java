@@ -1,9 +1,8 @@
 package fracCalc;
 import java.util.*;
 public class FracCalc {
-
 	public static void main(String[] args) 
-	{	
+	{
 		Scanner userInput = new Scanner(System.in);
 		boolean test=false;
 		while (test == false) {
@@ -17,9 +16,7 @@ public class FracCalc {
 			// TODO: Read the input from the user and call produceAnswer with an equation
 		}
 		userInput.close();
-
 	}
-
 	// ** IMPORTANT ** DO NOT DELETE THIS FUNCTION.  This function will be used to test your code
 	// This function takes a String 'input' and produces the result
 	//
@@ -38,24 +35,20 @@ public class FracCalc {
 		secondOperand = toImproperFracString(secondOperand);
 		String[] firstOpSplit = firstOperand.split("/");
 		String[] secondOpSplit = secondOperand.split("/");
-		String firstNumer = firstOpSplit[0];
-		String firstDenom = firstOpSplit[1];
-		String secondNumer = secondOpSplit[0];
-		String secondDenom =secondOpSplit[1];
-		int firstNumerator = Integer.parseInt(firstNumer);
-		int firstDenominator = Integer.parseInt(firstDenom);
-		int secondNumerator = Integer.parseInt(secondNumer);
-		int secondDenominator = Integer.parseInt(secondDenom);
-		int commonDenominator = firstDenominator * secondDenominator;
+		int firstNumerator = Integer.parseInt(firstOpSplit[0]);
+		int firstDenominator = Integer.parseInt(firstOpSplit[1]);
+		int secondNumerator = Integer.parseInt(secondOpSplit[0]);
+		int secondDenominator = Integer.parseInt(secondOpSplit[1]);
+		int commonDenominator = Math.abs(firstDenominator * secondDenominator);
 		int wholeNumber = 0;
 		firstNumerator *= secondDenominator;
 		secondNumerator *= firstDenominator;
 		if (operator.equals("+")) {
-				firstNumerator += secondNumerator;
-			}
+			firstNumerator += secondNumerator;
+		}
 		if (operator.equals("-")) {
-				firstNumerator -= secondNumerator;
-			}
+			firstNumerator -= secondNumerator;
+		}
 		if (operator.equals("*")) {
 			firstNumerator *= secondNumerator;
 			commonDenominator *= commonDenominator;
@@ -65,21 +58,30 @@ public class FracCalc {
 			commonDenominator *= secondNumerator;
 		}
 		while( firstNumerator % 2 == 0 && commonDenominator % 2 == 0)//if the numerator and denominator are both factors of 2
-			{
+		{
 			firstNumerator /= 2;
 			commonDenominator /= 2;
 		}
 		while( firstNumerator % commonDenominator == 0) //if the numerator is a factor of the denominator.
 		{
 			wholeNumber = firstNumerator / commonDenominator;
-				return (wholeNumber+"");
-			}
-		while(firstNumerator % commonDenominator >= 1) {
-			wholeNumber = firstNumerator / commonDenominator;
-			firstNumerator -= wholeNumber*commonDenominator ;
-			return (wholeNumber + "_" + firstNumerator + "/" + commonDenominator);
+			return (wholeNumber+"");
 		}
-		return(firstNumerator + "/" + commonDenominator);
+		if(Math.abs(firstNumerator) % commonDenominator >= 1 ) {
+			wholeNumber = firstNumerator / commonDenominator;
+			firstNumerator -= (wholeNumber*commonDenominator);
+			int gcf = gcf(Math.abs(firstNumerator) ,Math.abs(commonDenominator));
+			commonDenominator = commonDenominator / gcf;
+			firstNumerator = firstNumerator / gcf;
+			if(wholeNumber == 0) {
+				if(commonDenominator < 0) {
+					return("-" + firstNumerator + "/" + Math.abs(commonDenominator));
+				}
+				return(firstNumerator + "/" + Math.abs(commonDenominator));
+			}
+			return (wholeNumber + "_" + Math.abs(firstNumerator) + "/" + Math.abs(commonDenominator));
+		}
+		return(firstNumerator + "/" + Math.abs(commonDenominator));
 	}
 	// TODO: Fill in the space below with any helper methods that you think you will need
 	public static String toImproperFracString(String input) {
@@ -123,5 +125,31 @@ public class FracCalc {
 		}
 		return ("error");
 	}
-
+	public static int gcf(int a, int b) {
+		int answer = 1;
+		for (int c = min(a,b);c > 0; c--) {
+			if (max(a, b) % c == 0 && min(a,b) % c == 0) {
+				if (c >= answer) {
+					answer = c;
+				}
+			}
+		}
+		return answer;
+	}
+	public static int min(int a, int b) {
+		if (a < b) {
+			return a;
+		}
+		else {
+			return b;
+		}
+	}
+	public static double max(int a, int b) {
+		if (a > b) {
+			return a;
+		}	
+		else {
+			return b;
+		}
+	}
 }
