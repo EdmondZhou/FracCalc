@@ -125,31 +125,31 @@ public class FracCalc {
 		}
 		return ("error");
 	}
-	public static int gcf(int a, int b) {
+	public static int gcf(int num1, int num2) {
 		int answer = 1;
-		for (int c = min(a,b);c > 0; c--) {
-			if (max(a, b) % c == 0 && min(a,b) % c == 0) {
-				if (c >= answer) {
-					answer = c;
+		for (int i = min(num1,num2); i > 0; i --) {
+			if (max(num1, num2) % i == 0 && min(num1,num2) % i == 0) {
+				if (i >= answer) {
+					answer = i;
 				}
 			}
 		}
 		return answer;
 	}
-	public static int min(int a, int b) {
-		if (a < b) {
-			return a;
+	public static int min(int num1, int num2) {
+		if (num1 < num2) {
+			return num1;
 		}
 		else {
-			return b;
+			return num2;
 		}
 	}
-	public static double max(int a, int b) {
-		if (a > b) {
-			return a;
+	public static double max(int num1, int num2) {
+		if (num1 > num2) {
+			return num1;
 		}	
 		else {
-			return b;
+			return num2;
 		}
 	}
 }
